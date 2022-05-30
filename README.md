@@ -1,2 +1,2 @@
 # Stocks-AndroidApp
-Android stocks app
+Android stocks app for volga-it competition
