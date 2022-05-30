@@ -3,15 +3,11 @@ package ru.kettuproj.stocks.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.kettuproj.stocks.common.isInternetAvailable
 import ru.kettuproj.stocks.model.Stock
@@ -19,7 +15,6 @@ import ru.kettuproj.stocks.model.Symbol
 import ru.kettuproj.stocks.repository.FinnhubRepository
 import ru.kettuproj.stocks.repository.FinnhubWebSocket
 import ru.kettuproj.stocks.room.AppDatabase
-import ru.kettuproj.stocks.room.SettingEntity
 import ru.kettuproj.stocks.room.StockEntity
 
 class StockViewModel(application: Application) : AndroidViewModel(application) {
@@ -41,30 +36,6 @@ class StockViewModel(application: Application) : AndroidViewModel(application) {
         if(isInternetAvailable(context)) updateStock()
     }
 
-    fun loadItems(items: List<StockEntity>){
-        val iterator = loadedItems.iterator()
-        while (iterator.hasNext()){
-            val item = iterator.next()
-            if(!items.map { it.symbol }.contains(item.symbol)) {
-                socket.unsubscribe(item.symbol)
-                Log.i("FINNHUNB", "Add command to unsub: ${item.symbol}")
-                iterator.remove()
-            }
-        }
-
-        for(item in items) {
-            if(!loadedItems.map { it.symbol }.contains(item.symbol)){
-                loadedItems.add(item)
-                if(!loadedStocks.map { it.getSymbol().symbol }.contains(item.symbol))
-                    addNewQuote(item){
-                        if(it) {
-                            socket.subscribe(item.symbol)
-                            Log.i("FINNHUNB", "Add command to sub: ${item.symbol}")
-                        }
-                    }
-            }
-        }
-    }
 
     fun loadItem(stock: StockEntity){
         if(!loadedItems.contains(stock)) {
@@ -75,14 +46,14 @@ class StockViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addNewQuote(symbol: StockEntity,  retry:Boolean = false, callback: (added:Boolean)->Unit){
+    fun addNewQuote(symbol: StockEntity, retry:Boolean = false, callback: (added:Boolean)->Unit){
         viewModelScope.launch {
             kotlin.runCatching {
                 FinnhubRepository.getQuote(symbol.symbol, tokenSettings.getToken())
             }.onSuccess {
                 if(it.status == HttpStatusCode.OK){
-                    loadedStocks.add(ru.kettuproj.stocks.model.Stock(
-                        ru.kettuproj.stocks.model.Symbol(
+                    loadedStocks.add(Stock(
+                        Symbol(
                             symbol.description,
                             symbol.display,
                             symbol.symbol

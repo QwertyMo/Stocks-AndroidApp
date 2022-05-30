@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -32,8 +32,10 @@ fun NoInternetScreen(paddings: PaddingValues, onRefresh:()->Unit) {
                     .size(64.dp)
             )
             Text(
+                textAlign = TextAlign.Center,
                 text = "No internet connection",
-                fontSize = 24.sp
+                fontSize = 24.sp,
+                modifier = Modifier.padding(32.dp)
             )
             FloatingActionButton(
                 modifier = Modifier.padding(4.dp),

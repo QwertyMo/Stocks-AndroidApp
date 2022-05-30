@@ -15,7 +15,6 @@ class SymbolsViewModel(application: Application) : AndroidViewModel(application)
 
     private val tokenSettings = SettingsViewModel(application)
     val symbols   = MutableStateFlow<List<Symbol>>(listOf())
-    val status    = MutableStateFlow(HttpStatusCode.OK)
     val loading   = MutableStateFlow(false)
     private var context   = application
 
@@ -30,11 +29,9 @@ class SymbolsViewModel(application: Application) : AndroidViewModel(application)
                     symbols.value = it.data
                 }else{
                     symbols.value = listOf()
-                    status.value = it.status
                 }
                 loading.value = true
             }.onFailure {
-                status.value = HttpStatusCode.BadRequest
                 symbols.value = listOf()
                 loading.value = true
             }

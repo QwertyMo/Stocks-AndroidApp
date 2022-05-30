@@ -2,7 +2,6 @@ package ru.kettuproj.stocks.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.ktor.http.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,8 +14,8 @@ import ru.kettuproj.stocks.room.SettingEntity
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
     private val database: AppDatabase
     private var context   = application
-    val tokenValidation = MutableStateFlow<Boolean>(false)
-    val loadValidation  = MutableStateFlow<Boolean>(true)
+    val tokenValidation = MutableStateFlow(false)
+    val loadValidation  = MutableStateFlow(true)
 
     init{
         database = AppDatabase.getDatabase(application)

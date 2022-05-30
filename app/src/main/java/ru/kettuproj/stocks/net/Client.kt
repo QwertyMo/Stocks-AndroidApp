@@ -6,9 +6,11 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 
 object Client {
+    @OptIn(ExperimentalSerializationApi::class)
     val client = HttpClient(OkHttp) {
         install(HttpTimeout) {
             requestTimeoutMillis = 15000

@@ -17,7 +17,7 @@ import java.lang.Exception
 
 class FinnhubWebSocket {
 
-    private val commands = mutableListOf<String>();
+    private val commands = mutableListOf<String>()
 
     fun subscribe(symbol: String) {
         commands.add(
@@ -61,7 +61,7 @@ class FinnhubWebSocket {
                     for (message in incoming) {
                         message as? Frame.Text ?: continue
                         callback(
-                            Json.decodeFromString<WebSocketResponse>(message.readText()),
+                            Json.decodeFromString(message.readText()),
                             false
                         )
                     }

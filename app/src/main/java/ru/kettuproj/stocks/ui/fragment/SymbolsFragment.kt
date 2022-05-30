@@ -1,7 +1,6 @@
 package ru.kettuproj.stocks.ui.fragment
 
 import android.annotation.SuppressLint
-import android.view.Window
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -28,14 +27,13 @@ import ru.kettuproj.stocks.common.isInternetAvailable
 import ru.kettuproj.stocks.model.Symbol
 import ru.kettuproj.stocks.ui.components.LoadingScreen
 import ru.kettuproj.stocks.ui.components.NoInternetScreen
-import ru.kettuproj.stocks.viewmodel.SettingsViewModel
 import ru.kettuproj.stocks.viewmodel.StockViewModel
 import ru.kettuproj.stocks.viewmodel.SymbolsViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SymbolsFragment(navController: NavController, window: Window, exchange: String?){
+fun SymbolsFragment(navController: NavController, exchange: String?){
 
     val context = LocalContext.current
     val internet = remember { mutableStateOf( isInternetAvailable(context)) }
@@ -111,7 +109,7 @@ fun SymbolsBottomBar(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center) {
-            Box(){
+            Box{
                 val text =  if(selected.isEmpty()) "Select elements"
                 else "Selected ${selected.size} items"
                 Text(
@@ -140,7 +138,9 @@ fun SymbolsBottomBar(
                     androidx.compose.material3.FloatingActionButton(
                         onClick = {
                             viewModelStock.addStocks(selected, exchange)
-                            navController.navigate("stocks")
+                            navController.navigate("stocks"){
+                                popUpTo(0)
+                            }
                         },
                         modifier = Modifier.padding(16.dp),
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,

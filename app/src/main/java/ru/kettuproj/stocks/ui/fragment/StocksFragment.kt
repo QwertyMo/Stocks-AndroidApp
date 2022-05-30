@@ -1,17 +1,12 @@
 package ru.kettuproj.stocks.ui.fragment
 
-import android.util.Log
-import android.view.Window
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SwipeToDismiss
@@ -50,7 +45,7 @@ import kotlin.math.abs
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun StocksFragment(navController: NavController, window: Window) {
+fun StocksFragment(navController: NavController) {
 
     val context = LocalContext.current
 
@@ -65,7 +60,7 @@ fun StocksFragment(navController: NavController, window: Window) {
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {BottomBar(navController, internet.value)}
+        bottomBar = {BottomBar(navController)}
     ) { paddings ->
 
                 if (!internet.value) {
@@ -195,7 +190,7 @@ fun StockCard(
                                 text = data.getPrice().toString(),
                                 fontSize = 20.sp
                             )
-                            Row() {
+                            Row{
                                 Icon(
                                     imageVector = icon,
                                     tint = color,
@@ -209,7 +204,7 @@ fun StockCard(
                             }
                         }
                     } else {
-                        Column() {
+                        Column{
                             Row(modifier = Modifier.padding(4.dp)) {
                                 AnimatedShimmer(20.sp)
                             }
@@ -262,7 +257,11 @@ fun NoItems(paddings: PaddingValues){
             .padding(bottom = paddings.calculateBottomPadding()),
         contentAlignment = Alignment.Center
     ){
-        Text("There is no stocks. Add new now!")
+        Text(
+            textAlign = TextAlign.Center,
+            text = "There is no stocks. Add new now!",
+            fontSize = 24.sp,
+            modifier = Modifier.padding(32.dp))
     }
 }
 
@@ -275,14 +274,16 @@ fun InvalidToken(paddings: PaddingValues){
             .padding(bottom = paddings.calculateBottomPadding()),
         contentAlignment = Alignment.Center
     ){
-        Text("Invalid token. Add new token at token settings")
+        Text(
+            textAlign = TextAlign.Center,
+            text = "Invalid token. Add new token at token settings",
+            fontSize = 24.sp,
+            modifier = Modifier.padding(32.dp))
     }
 }
 
-
-
 @Composable
-fun BottomBar(navController: NavController, internet: Boolean) {
+fun BottomBar(navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -294,7 +295,7 @@ fun BottomBar(navController: NavController, internet: Boolean) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Box() {
+            Box{
                 TextButton(
                     onClick = {
                         navController.navigate("tokenSettings")
@@ -316,7 +317,7 @@ fun BottomBar(navController: NavController, internet: Boolean) {
                     containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ) {
-                    Icon(Icons.Filled.Add, "Add stock button",)
+                    Icon(Icons.Filled.Add, "Add stock button")
                 }
             }
         }

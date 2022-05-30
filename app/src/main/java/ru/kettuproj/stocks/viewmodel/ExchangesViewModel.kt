@@ -2,7 +2,6 @@ package ru.kettuproj.stocks.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.ktor.http.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,6 @@ class ExchangesViewModel(application: Application) : AndroidViewModel(applicatio
     private val tokenSettings = SettingsViewModel(application)
     private var context   = application
     val exchanges = MutableStateFlow<List<String>>(listOf())
-    val status    = MutableStateFlow(HttpStatusCode.OK)
     val loading   = MutableStateFlow(false)
 
     fun load(){
@@ -28,11 +26,9 @@ class ExchangesViewModel(application: Application) : AndroidViewModel(applicatio
                         exchanges.value = it.data
                     }else{
                         exchanges.value = listOf()
-                        status.value = it.status
                     }
                     loading.value = true
                 }.onFailure {
-                    status.value = HttpStatusCode.BadRequest
                     exchanges.value = listOf()
                     loading.value = true
                 }

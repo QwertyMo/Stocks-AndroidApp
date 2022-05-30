@@ -1,9 +1,6 @@
 package ru.kettuproj.stocks.ui.fragment
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.*
@@ -14,23 +11,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import ru.kettuproj.stocks.common.isInternetAvailable
 import ru.kettuproj.stocks.viewmodel.SettingsViewModel
-import ru.kettuproj.stocks.viewmodel.StockViewModel
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 fun TokenFragment(navController: NavController) {
-
-    val context = LocalContext.current
-    val internet = remember { mutableStateOf( isInternetAvailable(context)) }
 
     val viewModelToken: SettingsViewModel = viewModel()
 

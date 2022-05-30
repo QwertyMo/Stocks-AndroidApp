@@ -1,21 +1,13 @@
 package ru.kettuproj.stocks.model
 
 class Stock(
-    symbol: Symbol,
-    exchange: String,
-    price: Float,
-    highestPrice: Float,
-    lowestPrice: Float,
-    openPrice: Float,
+    private val symbol          : Symbol,
+    private val exchange        : String,
+    private var price           : Float,
+    private var highestPrice    : Float,
+    private var lowestPrice     : Float,
+    private val openPrice       : Float,
 ){
-    private val symbol      : Symbol = symbol
-    private val exchange    : String = exchange
-    private val openPrice   : Float  = openPrice
-    private var highestPrice: Float  = highestPrice
-    private var lowestPrice : Float  = lowestPrice
-    private var price       : Float  = price
-
-
     fun getHighestPrice(): Float  = highestPrice
     fun getLowestPrice() : Float  = lowestPrice
     fun getOpenPrice()   : Float  = openPrice

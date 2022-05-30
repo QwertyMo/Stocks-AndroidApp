@@ -14,9 +14,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
-
 @Composable
-fun AnimatedShimmer(heighth: TextUnit) {
+fun AnimatedShimmer(height: TextUnit) {
     val shimmerColors = listOf(
         Color.LightGray.copy(alpha = 0.4f),
         Color.LightGray.copy(alpha = 0.1f),
@@ -43,7 +42,7 @@ fun AnimatedShimmer(heighth: TextUnit) {
     )
 
     val h = with(LocalDensity.current) {
-        heighth.toDp()
+        height.toDp()
     }
 
     Box(modifier = Modifier) {
