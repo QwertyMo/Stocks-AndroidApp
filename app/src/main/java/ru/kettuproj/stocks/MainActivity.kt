@@ -1,5 +1,6 @@
 package ru.kettuproj.stocks
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -24,18 +25,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.room.Room
-import ru.kettuproj.stocks.room.AppDatabase
-import ru.kettuproj.stocks.ui.component.ExchangesList
 import ru.kettuproj.stocks.ui.fragment.ExchangesFragment
 import ru.kettuproj.stocks.ui.fragment.StocksFragment
 import ru.kettuproj.stocks.ui.fragment.SymbolsFragment
+import ru.kettuproj.stocks.ui.fragment.TokenFragment
 import ru.kettuproj.stocks.ui.theme.StocksTheme
 import ru.kettuproj.stocks.viewmodel.ExchangesViewModel
 
 
 class MainActivity : ComponentActivity() {
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val splashScreen = installSplashScreen()
@@ -48,16 +48,19 @@ class MainActivity : ComponentActivity() {
         setContent {
             StocksTheme {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val color1 = MaterialTheme.colorScheme.background
                     window.statusBarColor = Color.rgb(
-                        MaterialTheme.colorScheme.tertiary.red,
-                        MaterialTheme.colorScheme.tertiary.green,
-                        MaterialTheme.colorScheme.tertiary.blue
+                        color1.red,
+                        color1.green,
+                        color1.blue
                     )
                 }
 
                 val navController = rememberNavController()
-                Scaffold {
-                    Navigation(navController)
+                Scaffold(
+                    backgroundColor = MaterialTheme.colorScheme.background
+                ) {
+                    Navigation(navController, window)
                 }
             }
         }
@@ -67,15 +70,15 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun Navigation(navController: NavHostController){
+fun Navigation(navController: NavHostController, window: Window){
     NavHost(navController = navController, startDestination = "stocks") {
-        composable("stocks") { StocksFragment(navController) }
-        composable("exchanges") { ExchangesFragment(navController) }
-
+        composable("stocks") { StocksFragment(navController, window) }
+        composable("exchanges") { ExchangesFragment(navController, window) }
+        composable("tokenSettings") { TokenFragment(navController) }
         composable(
             route = "symbols/{exchange}",
             arguments = listOf(navArgument("exchange"){type = NavType.StringType})) { backStackEntry ->
-            SymbolsFragment(navController, backStackEntry.arguments?.getString("exchange"))
+            SymbolsFragment(navController, window, backStackEntry.arguments?.getString("exchange"))
         }
     }
 }

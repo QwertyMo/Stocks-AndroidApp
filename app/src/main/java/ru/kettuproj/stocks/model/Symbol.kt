@@ -1,6 +1,5 @@
 package ru.kettuproj.stocks.model
 
-import androidx.room.Entity
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

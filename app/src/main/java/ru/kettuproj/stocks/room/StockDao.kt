@@ -12,4 +12,14 @@ interface StockDao {
 
     @Delete
     fun delete(stock: StockEntity)
+
+    @Query("SELECT * FROM SettingEntity")
+    fun getSettings():List<SettingEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun update(setting: SettingEntity)
+
+    @Delete
+    fun delete(setting: SettingEntity)
+
 }

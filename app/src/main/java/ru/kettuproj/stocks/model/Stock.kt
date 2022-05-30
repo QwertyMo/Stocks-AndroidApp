@@ -1,7 +1,5 @@
 package ru.kettuproj.stocks.model
 
-import androidx.room.Entity
-
 class Stock(
     symbol: Symbol,
     exchange: String,
@@ -32,6 +30,6 @@ class Stock(
     }
 
     fun getPercent(): Float{
-        return (openPrice/price)*100
+        return ((openPrice/price)*100)-100
     }
 }
