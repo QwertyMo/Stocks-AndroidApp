@@ -42,7 +42,7 @@ class StockViewModel(application: Application) : AndroidViewModel(application) {
             loadedItems.add(stock)
             addNewQuote(stock){}
             socket.subscribe(stock.symbol)
-            Log.i("FINNHUNB", "Add command to sub: ${stock.symbol}")
+            Log.i("FINNHUB", "Add command to sub: ${stock.symbol}")
         }
     }
 
@@ -64,12 +64,12 @@ class StockViewModel(application: Application) : AndroidViewModel(application) {
                         it.data.lowPrice,
                         it.data.openPrice
                     ))
-                    Log.i("FINNHUNB", "Added new quote: ${symbol.symbol}")
+                    Log.i("FINNHUB", "Added new quote: ${symbol.symbol}")
                     callback(true)
                 }else{
-                    Log.i("FINNHUNB", "Error while adding quote: ${symbol.symbol}. Status code: ${it.status}")
+                    Log.i("FINNHUB", "Error while adding quote: ${symbol.symbol}. Status code: ${it.status}")
                     if(it.status == HttpStatusCode.TooManyRequests) delay(5000)
-                    Log.i("FINNHUNB", "Retry to get quote for: ${symbol.symbol}")
+                    Log.i("FINNHUB", "Retry to get quote for: ${symbol.symbol}")
                     addNewQuote(symbol){callback(it)}
                 }
             }.onFailure {

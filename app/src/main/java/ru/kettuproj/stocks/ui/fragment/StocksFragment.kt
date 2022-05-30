@@ -49,43 +49,39 @@ fun StocksFragment(navController: NavController) {
 
     val context = LocalContext.current
 
-    val viewModelSettings:  SettingsViewModel = viewModel()
-    val internet = remember { mutableStateOf( isInternetAvailable(context))}
+    val viewModelSettings: SettingsViewModel = viewModel()
+    val internet = remember { mutableStateOf(isInternetAvailable(context)) }
     val viewModelStock: StockViewModel = viewModel()
     val storedStocks = viewModelStock.storedStock
     val deleted = remember { mutableStateOf(0) }
 
     val tokenValid = viewModelSettings.tokenValidation.collectAsState()
-    val loadValid  = viewModelSettings.loadValidation.collectAsState()
+    val loadValid = viewModelSettings.loadValidation.collectAsState()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {BottomBar(navController)}
+        bottomBar = { BottomBar(navController) }
     ) { paddings ->
 
-                if (!internet.value) {
-                    NoInternetScreen(paddings){
-                        internet.value = isInternetAvailable(context)
-                        viewModelSettings.checkToken(viewModelSettings.getToken())
-                        viewModelStock.updateStock()
-                    }
-                } else if (!loadValid.value) {
-                    LoadingScreen(paddings)
-                } else if (viewModelSettings.getToken() == "" || !tokenValid.value) {
-                    InvalidToken(paddings)
-                } else if (storedStocks.isEmpty() || storedStocks.size - deleted.value == 0) {
-                    NoItems(paddings)
-                } else {
-                    viewModelStock.loadStockData()
-                    ListItems(paddings, storedStocks, viewModelStock, deleted)
-                }
-
+        if (!internet.value) {
+            NoInternetScreen(paddings) {
+                internet.value = isInternetAvailable(context)
+                viewModelSettings.checkToken(viewModelSettings.getToken())
+                viewModelStock.updateStock()
+            }
+        } else if (!loadValid.value) {
+            LoadingScreen(paddings)
+        } else if (viewModelSettings.getToken() == "" || !tokenValid.value) {
+            InvalidToken(paddings)
+        } else if (storedStocks.isEmpty() || storedStocks.size - deleted.value == 0) {
+            NoItems(paddings)
+        } else {
+            viewModelStock.loadStockData()
+            ListItems(paddings, storedStocks, viewModelStock, deleted)
         }
+
     }
-
-
-
-
+}
 
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
